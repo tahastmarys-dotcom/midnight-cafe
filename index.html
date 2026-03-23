@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE CLOCKWORK BEAN | Official Service Lounge</title>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #d4af37;
+            --bronze: #cd7f32;
+            --obsidian: #080808;
+            --dark-gray: #151515;
+            --white: #f0f0f0;
+        }
+
+        * { box-sizing: border-box; }
+
+        /* --- 1. PRELOADER WITH ANIMATED QUOTE --- */
+        #loader-wrapper {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--obsidian); display: flex; flex-direction: column;
+            justify-content: center; align-items: center; z-index: 10000;
+            text-align: center; padding: 20px;
+        }
+        .steam-line {
+            position: absolute; bottom: 60%; width: 4px; background: var(--bronze);
+            border-radius: 10px; animation: steamRise 2s infinite ease-in-out; opacity: 0;
+        }
+        .s1 { left: 47%; height: 30px; animation-delay: 0.2s; }
+        .s2 { left: 50%; height: 50px; animation-delay: 0.5s; }
+        .s3 { left: 53%; height: 35px; animation-delay: 0.8s; }
+        
+        @keyframes steamRise {
+            0% { transform: translateY(0); opacity: 0; }
+            50% { opacity: 0.6; }
+            100% { transform: translateY(-100px); opacity: 0; }
+        }
+
+        .quote-box {
+            margin-top: 40px;
+            font-style: italic;
+            color: var(--gold);
+            font-size: 1.5rem;
+            max-width: 500px;
+            opacity: 0;
+            animation: fadeInQuote 3s forwards;
+        }
+        @keyframes fadeInQuote {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- 2. LAYOUT --- */
+        body { 
+            margin: 0; background: var(--obsidian); color: var(--white); 
+            font-family: 'Garamond', serif; scroll-behavior: smooth; overflow-x: hidden;
+        }
+
+        nav {
+            background: rgba(8, 8, 8, 0.98); padding: 18px 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            position: sticky; top: 0; z-index: 999; border-bottom: 2px solid var(--bronze);
+        }
+        .logo { color: var(--gold); font-size: 1.6rem; font-weight: bold; letter-spacing: 2px; }
+        .nav-links a { color: #fff; text-decoration: none; margin-left: 20px; font-size: 0.85rem; text-transform: uppercase; font-weight: bold; }
+
+        section { padding: 100px 10%; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+        h2 { font-size: 3.5rem; color: var(--gold); text-transform: uppercase; margin-bottom: 50px; text-shadow: 2px 2px #000; }
+
+        /* --- 3. MENU GRID (11 DISHES) --- */
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; width: 100%; }
+        
+        .card {
+            background: var(--dark-gray); border: 1px solid #222; padding: 15px;
+            transition: 0.5s; position: relative;
+        }
+        .card:hover { border-color: var(--gold); transform: translateY(-10px); }
+        .card img { width: 100%; height: 230px; object-fit: cover; border-bottom: 2px solid var(--bronze); }
+        
+        .price { font-size: 1.4rem; color: var(--bronze); font-weight: bold; margin: 10px 0; }
+        .add-btn {
+            background: transparent; color: var(--gold); border: 1px solid var(--gold);
+            width: 100%; padding: 12px; font-weight: bold; cursor: pointer; transition: 0.3s;
+        }
+        .add-btn:hover { background: var(--gold); color: #000; }
+
+        /* --- 4. ORDER FORM --- */
+        .order-form { 
+            background: #111; color: var(--gold); padding: 45px; 
+            max-width: 700px; width: 100%; border: 1px solid #333;
+        }
+        input, textarea { width: 100%; padding: 15px; margin: 10px 0; background: #080808; border: 1px solid #444; color: #fff; }
+        .confirm-btn { background: var(--gold); color: #000; border: none; padding: 18px; width: 100%; font-weight: bold; cursor: pointer; font-size: 1.1rem; }
+
+        /* --- 5. CART PANEL --- */
+        #cart-panel {
+            position: fixed; right: 25px; bottom: 25px; width: 310px;
+            background: #111; border: 2px solid var(--gold); padding: 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.9); z-index: 1001; display: none;
+        }
+
+        footer { background: #050505; color: #666; text-align: center; padding: 40px; border-top: 1px solid #111; }
+    </style>
+</head>
+<body>
+
+    <div id="loader-wrapper">
+        <div class="steam-line s1"></div>
+        <div class="steam-line s2"></div>
+        <div class="steam-line s3"></div>
+        <div class="quote-box">
+            "Coffee: The finest organic suspension ever devised."
+        </div>
+        <div class="loader-text" style="color: var(--bronze); margin-top: 20px;">HEATING ENGINE...</div>
+    </div>
+
+    <nav>
+        <div class="logo">⚙️ THE CLOCKWORK BEAN</div>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#menu">Menu</a>
+            <a href="#order">Dispatch</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <section id="home" style="justify-content: center; text-align: center; background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1500'); background-size: cover; background-attachment: fixed;">
+        <h1 data-aos="zoom-in" style="font-size: 4.5rem; color: var(--gold); margin: 0;">MIDNIGHT ROASTS</h1>
+        <p style="letter-spacing: 6px; color: var(--bronze); font-size: 1.1rem;">WHERE STEAM MEETS SUBSTANCE</p>
+    </section>
+
+    <section id="menu">
+        <h2 data-aos="fade-up">The Dark Collection</h2>
+        <div class="menu-grid">
+            <script>
+                const menuItems = [
+                    {n: "Espresso Shot", p: 190, img: "https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=500"},
+                    {n: "Classic Cappuccino", p: 260, img: "https://images.unsplash.com/photo-1534778101976-62847782c213?w=500"},
+                    {n: "Cold Brew Glass", p: 310, img: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=500"},
+                    {n: "Latte Art Special", p: 280, img: "https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?w=500"},
+                    /* UPDATED IMAGE LINK FOR FLAT WHITE BELOW */
+                    {n: "Flat White", p: 250, img: "https://d2lswn7b0fl4u2.cloudfront.net/photos/pg-a-cup-of-flat-white-coffee-1630845655.jpg"},
+                    {n: "Chocolate Brownie", p: 220, img: "https://images.unsplash.com/photo-1564355808539-22fda35bed7e?w=500"},
+                    {n: "Blueberry Muffin", p: 180, img: "https://images.unsplash.com/photo-1550617931-e17a7b70dce2?w=500"},
+                    {n: "Avocado Sourdough", p: 450, img: "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=500"},
+                    {n: "Classic Club Sandwich", p: 480, img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=500"},
+                    {n: "French Croissant", p: 210, img: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=500"},
+                    {n: "Grilled Cheese", p: 380, img: "https://images.unsplash.com/photo-1528736235302-52922df5c122?w=500"}
+                ];
+
+                document.write(menuItems.map((d) => `
+                    <div class="card" data-aos="fade-up">
+                        <img src="${d.img}" alt="${d.n}">
+                        <div style="padding:15px; text-align:center;">
+                            <h3>${d.n}</h3>
+                            <p class="price">₹${d.p}</p>
+                            <button class="add-btn" onclick="addToCart('${d.n}', ${d.p})">ADD TO ORDER</button>
+                        </div>
+                    </div>
+                `).join(''));
+            </script>
+        </div>
+    </section>
+
+    <section id="order">
+        <div class="order-form" data-aos="zoom-in">
+            <h2 style="font-size: 2.2rem;">Order Manifest</h2>
+            <form onsubmit="handleFinalOrder(event)">
+                <input type="text" placeholder="Full Name" required>
+                <input type="tel" id="user-phone" placeholder="Your Mobile Number" required>
+                <textarea placeholder="Delivery Address" rows="3" required></textarea>
+                <div id="summary" style="border: 1px dashed var(--gold); padding: 15px; margin: 20px 0; color: #888; font-family: monospace;">
+                    Manifest is empty...
+                </div>
+                <button type="submit" class="confirm-btn">DISPATCH STEAM DELIVERY</button>
+            </form>
+        </div>
+    </section>
+
+    <section id="contact" style="text-align: center; background: #050505;">
+        <h2>The Lounge</h2>
+        <p style="color: var(--bronze);">For more enquiries, please contact our Service Manager:</p>
+        <p style="font-size: 3.5rem; font-weight: bold; color: var(--gold); margin: 20px 0;">📞 9876907862</p>
+    </section>
+
+    <div id="cart-panel">
+        <div style="color: var(--gold); font-weight: bold; border-bottom: 1px solid #333; margin-bottom: 10px;">ORDER LIST</div>
+        <div id="cart-items" style="max-height: 200px; overflow-y: auto;"></div>
+        <div style="margin-top: 15px; border-top: 1px solid #333; padding-top: 10px; font-weight: bold;">
+            TOTAL: ₹<span id="grand-total">0</span>
+        </div>
+        <button class="confirm-btn" style="margin-top: 10px; padding: 10px;" onclick="document.getElementById('order').scrollIntoView()">CHECKOUT</button>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 THE CLOCKWORK BEAN. Steam-Powered Excellence.</p>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const loader = document.getElementById('loader-wrapper');
+                loader.style.transition = 'opacity 0.8s';
+                loader.style.opacity = '0';
+                setTimeout(() => loader.style.display = 'none', 800);
+            }, 3500); 
+        });
+
+        let cart = [];
+        let total = 0;
+
+        function addToCart(name, price) {
+            cart.push({name, price});
+            total += price;
+            updateUI();
+            document.getElementById('cart-panel').style.display = 'block';
+        }
+
+        function updateUI() {
+            const list = document.getElementById('cart-items');
+            const summary = document.getElementById('summary');
+            list.innerHTML = '';
+            let text = '<strong>Active Manifest:</strong><br>';
+            
+            cart.forEach(item => {
+                list.innerHTML += `<div style="display:flex; justify-content:space-between; font-size:0.85rem; margin:5px 0;"><span>${item.name}</span><span>₹${item.price}</span></div>`;
+                text += `• ${item.name} (₹${item.price})<br>`;
+            });
+
+            document.getElementById('grand-total').innerText = total;
+            summary.innerHTML = text + `<br><strong>Total Payable: ₹${total}</strong>`;
+            summary.style.color = "var(--gold)";
+        }
+
+        function handleFinalOrder(event) {
+            event.preventDefault();
+            const phone = document.getElementById('user-phone').value;
+            if(cart.length === 0) return alert("Select fuel from the menu first!");
+            alert(`Order Successful! Our Service Manager will dispatch your coffee. Tracking SMS sent to ${phone}.`);
+            cart = []; total = 0; updateUI();
+            document.getElementById('cart-panel').style.display = 'none';
+        }
+
+        AOS.init({ duration: 1200 });
+    </script>
+</body>
+</html>
